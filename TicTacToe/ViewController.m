@@ -21,6 +21,7 @@
     __weak IBOutlet UILabel *myLabelNine;
     __weak IBOutlet UILabel *whichPlayerLabel;
     __weak IBOutlet UILabel *timerLabel;
+    __weak IBOutlet UILabel *dragLabel;
     
 }
 
@@ -35,6 +36,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     whichPlayerLabel.text = @"X Player";
+    dragLabel.text = @"X";
     [whichPlayerLabel sizeToFit];
     [self newTimer];
 }
@@ -102,10 +104,14 @@
         if([whichPlayerLabel.text isEqualToString:@"X Player"])
         {
             whichPlayerLabel.text = @"O Player";
+            dragLabel.text = @"O";
+            dragLabel.textColor = [UIColor blueColor];
         }
         else if ([whichPlayerLabel.text isEqualToString:@"O Player"])
         {
             whichPlayerLabel.text = @"X Player";
+            dragLabel.text = @"X";
+            dragLabel.textColor = [UIColor redColor];
         }
         [self newTimer];
     }
@@ -156,12 +162,16 @@
             label.text = @"X";
             winner = [self whoOne];
             whichPlayerLabel.text = @"O Player";
+            dragLabel.text = @"O";
+            dragLabel.textColor = [UIColor blueColor];
             label.textColor = [UIColor blueColor];
         }
         else if ([whichPlayerLabel.text isEqualToString:@"O Player"])    {
             label.text = @"O";
             winner = [self whoOne];
             whichPlayerLabel.text = @"X Player";
+            dragLabel.text = @"X";
+            dragLabel.textColor = [UIColor redColor];
             label.textColor = [UIColor redColor];
         }
     }

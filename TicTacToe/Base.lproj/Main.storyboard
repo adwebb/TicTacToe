@@ -96,14 +96,23 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Klr-Jy-QLW">
+                                <rect key="frame" x="139" y="110" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <gestureRecognizers/>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="AeE-Z1-AjK" appends="YES" id="Wdv-AG-jau"/>
+                            <outletCollection property="gestureRecognizers" destination="OBg-Za-vWC" appends="YES" id="0cg-Ib-Hkr"/>
                         </connections>
                     </view>
                     <connections>
+                        <outlet property="dragLabel" destination="Klr-Jy-QLW" id="zpO-NG-iBk"/>
                         <outlet property="myLabelEight" destination="XTh-fl-CFQ" id="c3u-X8-BIy"/>
                         <outlet property="myLabelFive" destination="Zxq-Ku-4f2" id="fW8-u9-W7l"/>
                         <outlet property="myLabelFour" destination="Pro-AC-ebD" id="Inu-nZ-3zh"/>
@@ -123,6 +132,7 @@
                         <action selector="onLabelTapped:" destination="vXZ-lx-hvc" id="B2d-me-Zwm"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="OBg-Za-vWC"/>
             </objects>
         </scene>
     </scenes>
