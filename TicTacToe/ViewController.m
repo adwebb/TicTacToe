@@ -111,8 +111,9 @@
     }
 }
 
--(NSString*)whoOne:(NSString *)xOrO
+-(NSString*)whoOne
 {
+    NSString * xOrO = [NSString stringWithFormat:@"%c",[whichPlayerLabel.text characterAtIndex:0]];
     if(([myLabelOne.text isEqualToString:xOrO]
        && [myLabelTwo.text isEqualToString:xOrO]
        && [myLabelThree.text isEqualToString:xOrO])
@@ -147,23 +148,26 @@
 
 -(void)takeATurn:(UILabel *)label
 {
+    NSString *winner;
     if([label.text isEqualToString:@""])
     {
         if([whichPlayerLabel.text isEqualToString:@"X Player"])
         {
             label.text = @"X";
+            winner = [self whoOne];
             whichPlayerLabel.text = @"O Player";
             label.textColor = [UIColor blueColor];
         }
         else if ([whichPlayerLabel.text isEqualToString:@"O Player"])    {
             label.text = @"O";
+            winner = [self whoOne];
             whichPlayerLabel.text = @"X Player";
             label.textColor = [UIColor redColor];
         }
     }
     [self newTimer];
     
-    NSString *winner = [self whoOne:label.text];
+    
     if([winner isEqualToString:label.text])
     {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat: @"The Winner is %@ Player!",winner] message:@"Thanks for playing! Please play again soon!" delegate:self cancelButtonTitle:@"Play Again!" otherButtonTitles:@"Quit.", nil];
@@ -174,53 +178,53 @@
     
 }
 
--(void)findLabelUsingPoint:(CGPoint)point
+-(UILabel*)findLabelUsingPoint:(CGPoint)point
 {
     
     if(CGRectContainsPoint(myLabelOne.frame, point))
         {
-            [self takeATurn:myLabelOne];
+            return myLabelOne;
         }
     if(CGRectContainsPoint(myLabelTwo.frame, point))
        {
-           [self takeATurn:myLabelTwo];
+           return myLabelTwo;
        }
     if(CGRectContainsPoint(myLabelThree.frame, point))
     {
-        [self takeATurn:myLabelThree];
+        return myLabelThree;
     }
     if(CGRectContainsPoint(myLabelFour.frame, point))
     {
-        [self takeATurn:myLabelFour];
+        return myLabelFour;
     }
     if(CGRectContainsPoint(myLabelFive.frame, point))
     {
-        [self takeATurn:myLabelFive];
+        return myLabelFive;
     }
     if(CGRectContainsPoint(myLabelSix.frame, point))
     {
-        [self takeATurn:myLabelSix];
+        return myLabelSix;
     }
     if(CGRectContainsPoint(myLabelSeven.frame, point))
     {
-        [self takeATurn:myLabelSeven];
+        return myLabelSeven;
     }
     if(CGRectContainsPoint(myLabelEight.frame, point))
     {
-        [self takeATurn:myLabelEight];
+        return myLabelEight;
     }
     if(CGRectContainsPoint(myLabelNine.frame, point))
     {
-        [self takeATurn:myLabelNine];
+        return myLabelNine;
     }
     
-    
+    return nil;
 }
 
 -(IBAction)onLabelTapped:(UITapGestureRecognizer *)tapGestureRecognizer
 {
     CGPoint point = [tapGestureRecognizer locationOfTouch:.1 inView:self.view];
-    [self findLabelUsingPoint:point];
+    [self takeATurn:[self findLabelUsingPoint:point]];
     
 }
 

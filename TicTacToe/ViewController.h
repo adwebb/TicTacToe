@@ -11,8 +11,8 @@
 @interface ViewController : UIViewController
 -(void)takeATurn:(UILabel *)label;
 -(IBAction)onLabelTapped:(UITapGestureRecognizer *)tapGestureRecognizer;
--(void)findLabelUsingPoint:(CGPoint)point;
--(NSString*)whoOne:(NSString *)xoro;
+-(UILabel*)findLabelUsingPoint:(CGPoint)point;
+-(NSString*)whoOne;
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex;
 
 
