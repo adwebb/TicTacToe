@@ -22,6 +22,8 @@
     __weak IBOutlet UILabel *whichPlayerLabel;
     __weak IBOutlet UILabel *timerLabel;
     __weak IBOutlet UILabel *dragLabel;
+    CGAffineTransform transform;
+
     
 }
 
@@ -37,8 +39,10 @@
 	// Do any additional setup after loading the view, typically from a nib.
     whichPlayerLabel.text = @"X Player";
     dragLabel.text = @"X";
+    dragLabel.textColor = [UIColor blueColor];
     [whichPlayerLabel sizeToFit];
     [self newTimer];
+    transform = dragLabel.transform;
 }
 
 -(void) newTimer
@@ -105,13 +109,13 @@
         {
             whichPlayerLabel.text = @"O Player";
             dragLabel.text = @"O";
-            dragLabel.textColor = [UIColor blueColor];
+            dragLabel.textColor = [UIColor redColor];
         }
         else if ([whichPlayerLabel.text isEqualToString:@"O Player"])
         {
             whichPlayerLabel.text = @"X Player";
             dragLabel.text = @"X";
-            dragLabel.textColor = [UIColor redColor];
+            dragLabel.textColor = [UIColor blueColor];
         }
         [self newTimer];
     }
@@ -159,20 +163,24 @@
     {
         if([whichPlayerLabel.text isEqualToString:@"X Player"])
         {
+            dragLabel.textColor = [UIColor redColor];
+            label.textColor = [UIColor blueColor];
             label.text = @"X";
             winner = [self whoOne];
             whichPlayerLabel.text = @"O Player";
+            [whichPlayerLabel sizeToFit];
             dragLabel.text = @"O";
-            dragLabel.textColor = [UIColor blueColor];
-            label.textColor = [UIColor blueColor];
+            
         }
         else if ([whichPlayerLabel.text isEqualToString:@"O Player"])    {
+            dragLabel.textColor = [UIColor blueColor];
+            label.textColor = [UIColor redColor];
             label.text = @"O";
             winner = [self whoOne];
             whichPlayerLabel.text = @"X Player";
+            [whichPlayerLabel sizeToFit];
             dragLabel.text = @"X";
-            dragLabel.textColor = [UIColor redColor];
-            label.textColor = [UIColor redColor];
+            
         }
     }
     [self newTimer];
@@ -229,6 +237,28 @@
     }
     
     return nil;
+}
+
+- (IBAction)onDrag:(UIPanGestureRecognizer*)panGesture
+{
+    CGPoint point;
+    if(panGesture.state != UIGestureRecognizerStateEnded)
+    {
+        point = [panGesture translationInView:self.view];
+        dragLabel.transform = CGAffineTransformMakeTranslation(point.x, point.y);
+        
+        point.x += dragLabel.center.x;
+        point.y += dragLabel.center.y;
+    } else {
+        [UIView animateWithDuration:0.5f animations:^{
+            dragLabel.transform = transform;
+        }];
+        point = [panGesture translationInView:self.view];
+        point.x += dragLabel.center.x;
+        point.y += dragLabel.center.y;
+        [self takeATurn:[self findLabelUsingPoint:point]];
+    }
+    NSLog(@"dragging like a dragon");
 }
 
 -(IBAction)onLabelTapped:(UITapGestureRecognizer *)tapGestureRecognizer
