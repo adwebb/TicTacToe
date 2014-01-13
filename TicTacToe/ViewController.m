@@ -2,8 +2,8 @@
 //  ViewController.m
 //  TicTacToe
 //
-//  Created by Matthew Voracek on 1/10/14.
-//  Copyright (c) 2014 Matthew Voracek. All rights reserved.
+//  Created by Andrew Webb on 1/10/14.
+//  Copyright (c) 2014 Andrew Webb. All rights reserved.
 //
 
 #import "ViewController.h"
@@ -38,13 +38,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    UIAlertView *timeAlert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat: @"Game Mode:"]
-                                                        message:@"How would you like to play TicTacToe?"
-                                                       delegate:self
-                                              cancelButtonTitle:@"Vs Computer"
-                                              otherButtonTitles:@"Two Players", nil];
-    [timeAlert show];
-
+    
     
     whichPlayerLabel.text = @"X Player";
     dragLabel.text = @"X";
@@ -53,6 +47,18 @@
     transform = dragLabel.transform;
     turnCount = 0;
     
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    UIAlertView *timeAlert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat: @"Game Mode:"]
+                                                        message:@"How would you like to play TicTacToe?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Vs Computer"
+                                              otherButtonTitles:@"Two Players", nil];
+    [timeAlert show];
+
 }
 
 -(void) newTimer
@@ -241,8 +247,8 @@
     {
         label.text = [NSString stringWithFormat:@"O"];
         label.textColor = [UIColor redColor];
-        whichPlayerLabel.text = @"X Player";
         winner = [self whoOne];
+        whichPlayerLabel.text = @"X Player";
         [self newTimer];
         turnCount++;
     }
@@ -257,6 +263,12 @@
         [alert show];
         [self.timer invalidate];
         self.timer = nil;
+    }else if ([winner isEqualToString:@"X"])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat: @"You Win!"] message:@"Thanks for playing! Please play again soon!" delegate:self cancelButtonTitle:@"Play Again!" otherButtonTitles:@"Quit.", nil];
+        [alert show];
+        [self.timer invalidate];
+        self.timer = nil;
     }else if(turnCount == 9)
     {
         turnCount = 0;
@@ -265,13 +277,6 @@
         [self.timer invalidate];
         self.timer = nil;
         
-    }
-    if ([winner isEqualToString:@"X"])
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat: @"You Win!"] message:@"Thanks for playing! Please play again soon!" delegate:self cancelButtonTitle:@"Play Again!" otherButtonTitles:@"Quit.", nil];
-        [alert show];
-        [self.timer invalidate];
-        self.timer = nil;
     }
     
     
@@ -306,6 +311,7 @@
             && [myLabelSeven.text isEqualToString:xOrO]))
         
     {
+        NSLog(@"@%",xOrO);
         return xOrO;
     }
     {NSLog(@"no winner yet");}
@@ -342,13 +348,16 @@
             label.textColor = [UIColor blueColor];
             dragLabel.textColor = [UIColor blueColor];
             label.text = @"X";
+            winner = [self whoOne];
             whichPlayerLabel.text = @"O Player";
             [whichPlayerLabel sizeToFit];
-            winner = [self whoOne];
+            
         }
+        turnCount++;
+        [self newTimer];
     }
-    [self newTimer];
-    turnCount++;
+    
+    
     
     
     if([winner isEqualToString:@"X"])
@@ -357,7 +366,7 @@
         [alert show];
             [self.timer invalidate];
             self.timer = nil;
-    }else if([winner isEqualToString:@"X"])
+    }else if([winner isEqualToString:@"O"])
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: [NSString stringWithFormat: @"O Player Wins!"] message:@"Thanks for playing! Please play again soon!" delegate:self cancelButtonTitle:@"Play Again!" otherButtonTitles:@"Quit.", nil];
         [alert show];
@@ -414,6 +423,10 @@
     {
         return myLabelNine;
     }
+    if(CGRectContainsPoint(dragLabel.frame, point))
+    {
+        return dragLabel;
+    }
     
     return nil;
 }
@@ -424,10 +437,13 @@
     if(panGesture.state != UIGestureRecognizerStateEnded)
     {
         point = [panGesture translationInView:self.view];
-        dragLabel.transform = CGAffineTransformMakeTranslation(point.x, point.y);
+        //if([self findLabelUsingPoint:point] == dragLabel)
+       // {
+            dragLabel.transform = CGAffineTransformMakeTranslation(point.x, point.y);
         
-        point.x += dragLabel.center.x;
-        point.y += dragLabel.center.y;
+            point.x += dragLabel.center.x;
+            point.y += dragLabel.center.y;
+       // }
     } else {
         [UIView animateWithDuration:0.5f animations:^{
             dragLabel.transform = transform;
